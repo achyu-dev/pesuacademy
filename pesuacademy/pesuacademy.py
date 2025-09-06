@@ -71,7 +71,7 @@ class PESUAcademy:
             None
 
         Returns:
-            Profile: A Profile object containing personal, parent, and address details.
+            Profile: A Profile object containing personal, parent, address details and current CGPA.
         """
         return await self._client.get_profile()
 
@@ -191,9 +191,9 @@ class PESUAcademy:
         """
         return await self._client.get_timetable()
 
-    async def get_current_cgpa(self) -> float | None:
-        """Fetches the current CGPA for the logged-in student."""
-        return await self._client.get_current_cgpa()
+    # async def get_current_cgpa(self) -> float | None:
+    #     """Fetches the current CGPA for the logged-in student."""
+    #     return await self._client.get_current_cgpa()
 
     async def close(self) -> None:
         """Closes the network session gracefully.

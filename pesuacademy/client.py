@@ -82,7 +82,10 @@ class _PesuScraper:
         return await _SeatingInformationHandler._get(self._session)
 
     async def get_profile(self) -> Profile:
-        return await _ProfilePageHandler._get(self._session)
+        # Fetch profile and current CGPA
+        profile = await _ProfilePageHandler._get(self._session)
+        profile.personal.cgpa = await _CGPAHandler.get_current_cgpa(self._session)
+        return profile
 
     async def get_courses(self, semester: int | None = None) -> dict[int, list[Course]]:
         # Fetch courses for a specific semester or all semesters if none specified
@@ -106,10 +109,10 @@ class _PesuScraper:
         results = await asyncio.gather(*tasks)
         return dict(zip(semesters_to_fetch.keys(), results))
 
-    async def get_current_cgpa(self) -> float:
-        profile = await _ProfilePageHandler._get(self._session)
-        profile.personal.cgpa = await _CGPAHandler.get_current_cgpa(self._session)
-        return profile.personal.cgpa
+    # async def get_current_cgpa(self) -> float:
+    #     profile = await _ProfilePageHandler._get(self._session)
+    #     profile.personal.cgpa = await _CGPAHandler.get_current_cgpa(self._session)
+    #     return profile.personal.cgpa
 
     async def get_announcements(self) -> list[Announcement]:
         return await _AnnouncementPageHandler._get(self._session)
