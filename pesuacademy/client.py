@@ -106,7 +106,7 @@ class _PesuScraper:
         results = await asyncio.gather(*tasks)
         return dict(zip(semesters_to_fetch.keys(), results))
 
-    async def get_current_cgpa(self) -> Profile:
+    async def get_current_cgpa(self) -> float:
         profile = await _ProfilePageHandler._get(self._session)
         profile.personal.cgpa = await _CGPAHandler.get_current_cgpa(self._session)
         return profile.personal.cgpa
