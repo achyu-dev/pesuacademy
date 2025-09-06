@@ -98,3 +98,10 @@ class _PageURLParams:
         MENU_ID: str = "669"
         CONTROLLER_MODE: str = "6415"
         ACTION_TYPE: str = "5"
+
+    class CGPA:
+        """Static parameters for the placements page."""
+
+        MENU_ID: str = "109472"
+        CONTROLLER_MODE: str = "6609"
+        ACTION_TYPE: str = "5"

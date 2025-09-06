@@ -5,7 +5,7 @@ from .attendance import _AttendancePageHandler
 from .course_detail import _CourseDetailPageHandler
 from .courses import _CoursesPageHandler
 from .esa_result import _ResultsPageHandler
-from .fetch_cgpa import _CGPAFetcher
+from .fetch_cgpa import _CGPAHandler
 from .material_links import _MaterialLinksHandler
 from .profile import _ProfilePageHandler
 from .seating_information import _SeatingInformationHandler
@@ -25,5 +25,5 @@ __all__ = [
     "_SemesterHandler",
     "_UnitPageHandler",
     "_TimetablePageHandler",
-    "_CGPAFetcher",
+    "_CGPAHandler",
 ]

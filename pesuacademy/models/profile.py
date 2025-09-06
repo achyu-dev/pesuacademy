@@ -32,6 +32,7 @@ class PersonalDetails(BaseModel):
     aadhar_no: str | None = None
     name_as_in_aadhar: str | None = None
     image: str | None = None
+    cgpa: float | None = None
 
 
 class OtherInformation(BaseModel):
