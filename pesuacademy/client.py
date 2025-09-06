@@ -105,6 +105,42 @@ class _PesuScraper:
         results = await asyncio.gather(*tasks)
         return dict(zip(semesters_to_fetch.keys(), results))
 
+    async def _get_placement_info_url(self) -> str | None:
+        """Extracts the placement info URL from the menu after login."""
+        response = await self._session.get("/")
+        response.raise_for_status()
+        soup = BeautifulSoup(response.text, "lxml")
+        menu_item = soup.find("li", attrs={"data-url": lambda v: v and "placementinfo" in v})
+        if menu_item:
+            return menu_item.get("data-url")
+        return None
+
+    async def get_current_cgpa(self) -> float | None:
+        """Fetches the current CGPA from the My Placement Info page."""
+        path = await self._get_placement_info_url()
+        if not path:
+            return None
+        # Fetch the placement info page directly (AJAX endpoint)
+        response = await self._session.get(f"/{path}")
+        response.raise_for_status()
+        soup = BeautifulSoup(response.text, "lxml")
+        # Try to find the CGPA in a span or in a table
+        cgpa_span = soup.find("span", id="cgpa")
+        if cgpa_span:
+            try:
+                return float(cgpa_span.text.strip())
+            except ValueError:
+                return None
+        # Fallback: look for "CGPA" in table rows
+        for row in soup.find_all("tr"):
+            cells = row.find_all("td")
+            if len(cells) >= 2 and "CGPA" in cells[0].get_text():
+                try:
+                    return float(cells[1].get_text().strip())
+                except ValueError:
+                    continue
+        return None
+
     async def get_announcements(self) -> list[Announcement]:
         return await _AnnouncementPageHandler._get(self._session)
 

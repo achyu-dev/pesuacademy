@@ -119,6 +119,7 @@ class Profile(BaseModel):
         qualifying_exam (QualifyingExamination): Details of the qualifying examination.
         parents (ParentInformation): Information about the user's parents.
         address (AddressDetails): Address details of the user.
+        cgpa (Optional[float]): Current CGPA of the user.
     """
 
     personal: PersonalDetails
@@ -126,3 +127,4 @@ class Profile(BaseModel):
     qualifying_exam: QualifyingExamination
     parents: ParentInformation
     address: AddressDetails
+    cgpa: float | None = None
