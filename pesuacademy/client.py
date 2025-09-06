@@ -83,8 +83,11 @@ class _PesuScraper:
 
     async def get_profile(self) -> Profile:
         # Fetch profile and current CGPA
-        profile = await _ProfilePageHandler._get(self._session)
-        profile.personal.cgpa = await _CGPAHandler.get_current_cgpa(self._session)
+        profile_task = _ProfilePageHandler._get(self._session)
+        cgpa_task = _CGPAHandler.get_current_cgpa(self._session)
+
+        profile, cgpa = await asyncio.gather(profile_task, cgpa_task)
+        profile.personal.cgpa = cgpa
         return profile
 
     async def get_courses(self, semester: int | None = None) -> dict[int, list[Course]]:
